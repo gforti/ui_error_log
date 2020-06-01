@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Error Demo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <main>
+            <h1>View console</h1>
+            <button>Click me</button>
+        </main>
+        <script type="module">
+            import './errorLog.js'
+
+            //fake()
+
+            document.querySelector('button').addEventListener('click', () => {
+              uhhgarbage()
+            })
+
+            const str = '<div {$wow} cool="${test}>${yup}</div>${hi} test ${cool arr.map(val => `${val}${another})} cool test ${'
+
+            const array = str.split('${').filter(v => v.length)
+            const expressions = []
+            let chunkCount = 0
+            let start = ''
+            array.forEach(chunk => {
+              start += '${'
+              chunkCount++
+              const end = chunk.lastIndexOf('}')
+              const occurrences = chunk.split('}').length-1
+              if(end > -1) {
+                chunkCount -= occurrences
+              }
+              console.log(chunkCount)
+              if(chunkCount === 0) {
+                expressions.push(`${start}${chunk.slice(0, end+1)}`)
+                start = ''
+              } else {
+                start += chunk
+              }
+            })
+
+            console.log(str)
+            console.log(array)
+            console.log(expressions)
+
+
+          </script>
+    </body>
+</html>
+
